@@ -29,7 +29,7 @@ const constRouter = [
   {
     path: '/login',
     name: '登录页',
-    component: () => import('@/views/login/index')
+    component: resolve => require(['@/views/login/index'], resolve)
   },
   {
     path: '/',
@@ -40,7 +40,7 @@ const constRouter = [
         path: 'dashboard',
         component: resolve => require(['@/views/dashboard/index'], resolve),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+        meta: {title: 'dashboard', icon: 'dashboard', affix: true}
       }
     ]
   },
@@ -54,19 +54,42 @@ const constRouter = [
         path: 'index',
         component: resolve => require(['@/views/profile/index'], resolve),
         name: 'Profile',
-        meta: { title: 'profile', icon: 'user', noCache: true }
+        meta: {title: 'profile', icon: 'user', noCache: true}
+      },
+    ]
+  },
+  {
+    path: '/resources',
+    component: Layout,
+    redirect: '/resources/msg',
+    hidden: true,
+    alwaysShow: true,
+    meta: {
+      title: '资源中心', icon: '', noCache: true, breadcrumb: true
+    },
+    children: [
+      {
+        hidden: true,
+        alwaysShow: false,
+        path: '/resources/msg/edit',
+        component: resolve => require(['@/views/lamp/resources/msg/edit'], resolve),
+        name: '发送消息',
+        meta: {
+          title: '发送消息', icon: '', noCache: true, breadcrumb: true
+        }
       },
       {
         hidden: true,
-        path: '/sms/manage/edit',
-        component: resolve => require(['@/views/zuihou/sms/manage/Edit'], resolve),
+        path: '/resources/sms/edit',
+        component: resolve => require(['@/views/lamp/resources/sms/edit'], resolve),
         name: 'smsEdit',
         meta: {
           title: '发送短信', icon: '', noCache: true
         }
-      }
+      },
     ]
   },
+
   {
     path: '/error',
     component: Layout,
@@ -81,29 +104,20 @@ const constRouter = [
         path: '404',
         component: resolve => require(['@/views/error-page/404'], resolve),
         name: 'Page404',
-        meta: { title: 'page404', noCache: true }
+        meta: {title: 'page404', noCache: true}
       }
     ]
   },
-  // 为什么写在这里 就会出错？
-  // {
-  //   path: "*",
-  //   // redirect: '/404',
-  //   component: () => import('@/views/error-page/404'),
-  //   name: "all_404",
-  //   hidden: false,
-  //   alwaysShow: false
-  // }
 ]
 
 const router = new Router({
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: constRouter
 })
 
 const whiteList = ['/login']
 
-// 加载的路由信息
+// 异步的路由信息， 同时，左侧菜单也会根据这个来显示
 let asyncRouter
 
 // 导航守卫，渲染动态路由
@@ -119,24 +133,24 @@ router.beforeEach((to, from, next) => {
       if (!asyncRouter) {
         if (!userRouter) {
           loginApi.getRouter({}).then((response) => {
-              const res = response.data
-              asyncRouter = res.data
+            const res = response.data
+            asyncRouter = res.data
 
-              if (!(asyncRouter && asyncRouter.length > 0)) {
-                asyncRouter = []
-              }
-              asyncRouter.push({
-                alwaysShow: false,
-                component: "error-page/404",
-                hidden: false,
-                name: "404",
-                path: "*"
-              });
+            if (!(asyncRouter && asyncRouter.length > 0)) {
+              asyncRouter = []
+            }
+            asyncRouter.push({
+              alwaysShow: false,
+              component: "error-page/404",
+              hidden: false,
+              name: "404",
+              path: "*"
+            });
 
-              store.commit('account/setRoutes', asyncRouter)
+            store.commit('account/setRoutes', asyncRouter)
 
-              go(to, next)
-           })
+            go(to, next)
+          })
         } else {
           asyncRouter = userRouter
           go(to, next)
@@ -148,6 +162,7 @@ router.beforeEach((to, from, next) => {
       if (to.path === '/login') {
         next()
       } else {
+        db.clear();
         next('/login')
       }
     }
@@ -158,35 +173,37 @@ router.afterEach(() => {
   NProgress.done()
 })
 
-function go (to, next) {
+function go(to, next) {
   asyncRouter = filterAsyncRouter(asyncRouter)
   router.addRoutes(asyncRouter)
-  next({ ...to, replace: true })
+  next({...to, replace: true})
 }
 
-function filterAsyncRouter (routes) {
+function filterAsyncRouter(routes, parent) {
   return routes.filter((route) => {
     const component = route.component
     if (component) {
       if (route.component === 'Layout') {
-        route.component = Layout
-      } else {
+        if (route.children && route.children.length > 0 && parent) {
+          route.component = (resolve) => {
+            require(['@/components/RouterWrap/RouterWrap.vue'], resolve);
+          }
+        } else {
+          route.component = Layout
+        }
+      } else if (typeof component === 'string') {
         route.component = view(component)
       }
       if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children)
+        route.children = filterAsyncRouter(route.children, route)
       }
       return true
     }
   })
 }
 
-function view (path) {
+function view(path) {
   return function (resolve) {
-    // 这段代码莫名奇妙就开始报错了，之前是好的
-    // import(`@/views/${path}.vue`).then(mod => {
-    //   resolve(mod)
-    // })
     require([`@/views/${path}.vue`], resolve)
   }
 }

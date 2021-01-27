@@ -14,7 +14,7 @@ export default {
     deleteCache: '清除缓存'
   },
   login: {
-    title: 'zuihou-admin-cloud',
+    title: 'lamp-cloud',
     logIn: '立即登录',
     tenant: '企业',
     username: '账号',
@@ -32,11 +32,32 @@ export default {
     github: '项目地址'
   },
   table: {
+    blockList: {
+      id: 'ID',
+      ip: '阻止访问ip',
+      requestUri: '请求URI',
+      requestMethod: '请求方法',
+      limitStart: '限制时间起',
+      limitEnd: '限制时间止',
+      state: '状态',
+    },
+    rateLimiter: {
+      id: 'ID',
+      count: '次数',
+      requestUri: '请求URI',
+      requestMethod: '请求方法',
+      limitStart: '限制时间起',
+      limitEnd: '限制时间止',
+      state: '状态',
+      intervalSec: '时间窗口',
+    },
     tenant: {
       code: '企业编码',
       name: '企业名称',
       type: '类型',
+      connectType: '连接类型',
       status: '状态',
+      readonly: '内置',
       duty: '责任人',
       expirationTime: '有效期',
       logo: 'logo',
@@ -46,6 +67,27 @@ export default {
       passwordErrorNum: '密码输错次数',
       passwordErrorLockTime: '账号锁定时间'
     },
+    datasourceConfig: {
+      id: 'ID',
+      name: '名称',
+      poolName: '数据源名',
+      username: '账号',
+      password: '密码',
+      url: '链接',
+      driverClassName: '驱动'
+    },
+    online:{
+      userId: "用户id",
+      loginIp: "登录IP",
+      location: "登录地点",
+      clientId: "客户端Key",
+      token: "token",
+      name: "姓名",
+      expireTime: "过期时间",
+      account: "账号",
+      expireMillis: "有效期",
+      loginTime: "登录时间",
+    },
     user: {
       account: '账号',
       name: '姓名',
@@ -54,7 +96,7 @@ export default {
       stationId: '岗位',
       email: '邮箱',
       sex: '性别',
-      status: '状态',
+      state: '状态',
       mobile: '电话',
       avatar: '头像',
       workDescribe: '个人描述',
@@ -76,8 +118,8 @@ export default {
       code: '编码',
       name: '角色名称',
       describe: '角色描述',
-      status: '状态',
-      readonly: '是否内置',
+      state: '状态',
+      readonly: '内置',
       createTime: '创建时间',
       dsType: '数据范围',
       orgList: '组织'
@@ -87,15 +129,16 @@ export default {
       label: '名称',
       describe: '描述',
       code: '权限编码',
-      isPublic: '是否公有',
+      isGeneral: '通用菜单',
       path: '路由URI',
       type: '类型',
       component: '组件',
-      isEnable: '是否启用',
+      state: '状态',
       sortValue: '排序',
       parentId: '上级ID',
       icon: '图标',
-      group: '分组'
+      group: '分组',
+      readonly: '内置'
     },
     resource: {
       code: '编码',
@@ -107,14 +150,15 @@ export default {
       abbreviation: '简称',
       describe: '描述',
       parentId: '上级ID',
+      type: '类型',
       sortValue: '排序',
-      status: '状态'
+      state: '状态'
     },
     station: {
       name: '岗位名称',
       describe: '描述',
       orgId: '组织',
-      status: '状态'
+      state: '状态'
     },
     optLog: {
       requestIp: 'IP',
@@ -167,7 +211,7 @@ export default {
       appId: '应用ID',
       appSecret: '应用密码',
       url: 'SMS服务域名',
-      customCode: '模板编码',
+      customCode: '自定义编码',
       name: '模板名称',
       content: '模板内容',
       templateParams: '模板参数',
@@ -196,10 +240,10 @@ export default {
       message: '状态码的描述',
       fee: '计费条数'
     },
-    msgs: {
+    msg: {
       bizType: '业务类型',
       bizId: '业务ID',
-      msgsCenterType: '消息类型',
+      msgType: '消息类型',
       title: '标题',
       content: '内容',
       author: '作者',
@@ -210,21 +254,6 @@ export default {
       isRead: '状态',
       readTime: '读消息的时间'
     },
-    systemApi: {
-      code: "接口编码",
-      name: "接口名称",
-      describe: "资源描述",
-      requestMethod: "请求方式",
-      contentType: "响应类型",
-      serviceId: "服务ID",
-      path: "请求路径",
-      status: "状态",
-      isPersist: "保留数据",
-      isAuth: "是否需要认证",
-      isOpen: "是否公开",
-      className: "类名",
-      methodName: "方法名"
-    },
     application: {
       clientId: "clientId",
       clientSecret: "clientSecret",
@@ -233,22 +262,20 @@ export default {
       icon: "应用图标",
       appType: "类型",
       describe: "备注",
-      status: "状态"
+      state: "状态"
     },
     dictionary: {
       type: "类型",
-      name: "名称",
-      describe: "描述",
-      status: "状态"
-    },
-    dictionaryItem: {
-      dictionaryId: "字典ID",
-      dictionaryType: "类型",
+      label: "类型标签",
       code: "编码",
       name: "名称",
       describe: "描述",
-      status: "状态",
-      sortValue: "排序"
+      state: "状态",
+      sortValue: "排序",
+      icon: "图标",
+      cssStyle: "样式",
+      cssClass: "类选择器",
+      readonly:"内置"
     },
     area: {
       code: "编码",
@@ -267,8 +294,8 @@ export default {
       name: "参数名称",
       value: '参数值',
       describe: '描述',
-      status: '状态',
-      readonly: '只读'
+      state: '状态',
+      readonly: '内置'
     },
     gen: {
       config: {
@@ -291,13 +318,71 @@ export default {
         updateTime: '更新时间'
       }
     },
-    eximport: {
-      field1: '字段1',
-      field2: '字段2',
-      field3: '字段3',
-      createTime: '导入时间'
+    activitiModel: {
+      id: '模型主键',
+      name: '模型名称',
+      key: '模型标识',
+      version: '版本',
+      description: '模型描述',
+      status: '发布状态',
+      createTime: '创建时间',
+      lastUpdateTime: '最后修改时间'
+    },
+    definitionModel: {
+      id: '流程主键',
+      tenantId: '租户编号',
+      name: '流程名称',
+      deploymentName: '部署名称',
+      key: '流程标识',
+      version: '流程版本',
+      suspendStateName: '状态',
+      deploymentTime: '部署时间',
+    },
+    instantModel: {
+      id: '主键',
+      tenantCode: '租户编号',
+      name: '请假人员',
+      type: '请假类型',
+      isOver: '完成状态',
+      suspendStateName: '激活状态',
+      startTime: '开始时间',
+      endTime: '结束时间',
+    },
+    instantReimbursementModel: {
+      id: '主键',
+      tenantId: '租户编号',
+      name: '报销人员',
+      type: '报销类型',
+      amount: '报销金额',
+      isOver: '完成状态',
+      suspendStateName: '激活状态',
+      createTime: '申请时间',
+    },
+    ruTaskModel: {
+      id: '任务主键',
+      tenantId: '租户编号',
+      name: '当前任务名称',
+      processDefinitionName: '流程名称',
+      processDefinitionKey: '流程KEY',
+      suspendStateName: '激活状态',
+      reason: '请假原因',
+      type: '请假类型',
+      typeReimbursement: '报销类型',
+      reasonReimbursement: '报销说明',
+      startUser: '发起人',
+      startTime: '发起时间',
+      createTime: '申请时间',
+    },
+    ruTaskItemModel: {
+      id: '事项主键',
+      itemName: '事项名称',
+      itemRemake: '事项备注',
+      result: '事项结果',
+      createdBy: '处理人',
+      createTime: '处理时间',
     },
     status: '状态',
+    state: '状态',
     refresh: '刷新',
     operation: '操作',
     search: '搜索',
@@ -314,7 +399,9 @@ export default {
     resetPassword: '密码重置',
     openInNewPage: '新页面打开',
     createTime: '创建时间',
-    updateTime: '修改时间'
+    updateTime: '修改时间',
+    keyword: '关键词',
+    readonly: '内置'
   },
   tagsView: {
     refresh: '刷新当前',
@@ -327,12 +414,14 @@ export default {
     theme: '主题色',
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
-    sidebarLogo: '侧边栏 Logo'
+    sidebarLogo: '侧边栏 Logo',
+    uniqueOpened: '只保持一个子菜单的展开'
   },
   system: {
-    title: 'zuihou-admin'
+    title: 'lamp-cloud'
   },
   tips: {
+    readonly: '系统数据，不能操作',
     systemError: '系统维护中，请稍微再试~',
     usernameShouldNotBeEmpty: '用户名不能为空',
     passwordShouldNotBeEmpty: '密码不能为空',
@@ -357,7 +446,7 @@ export default {
     onlyChooseOne: '只能选择一个节点作为父节点',
     noNodeSelected: '请先选择节点',
     confirmDeleteNode: '选中节点及其子结点将被永久删除, 是否继续？',
-    iframeGrant: '用户名：zuihou 密码：zuihou',
+    iframeGrant: '用户名：lamp 密码：lamp',
     notEqual: '两次输入不一致',
     oldPasswordIncorrect: '原密码不正确',
     uploadSuccess: '上传成功',
@@ -370,7 +459,10 @@ export default {
     resetPasswordSuccess: '所选用户密码重置已被重置为123456',
     getCodeImageFailed: '获取图形验证码失败',
     tooManyRequest: '获取验证码过于频繁，请1分钟后再试',
-    clientOriginSecret: '该客户端原始密码为：'
+    clientOriginSecret: '该客户端原始密码为：',
+    publishSuccess: '发布成功',
+    confirmPublish: '确定发布流程吗?',
+    mappingSuccess: '映射成功',
   },
   rules: {
     require: '不能为空',
@@ -394,9 +486,9 @@ export default {
     invalidURL: '不是有效的URL'
   },
   common: {
-    system: '微服务SaaS脚手架',
+    system: '快速开发平台',
     desc: {
-      a: '基于SpringBoot 2.2.5 & SpringCloud Hoxton.SR1',
+      a: '基于SpringBoot 2.3.6 & SpringCloud Hoxton.SR9',
       b: '使用Jwt自定义统一认证',
       c: '企业级设计和配置，拒绝demo项目',
       d: '前后端分离架构，提高软件开发效率',
@@ -420,6 +512,10 @@ export default {
       secret: '保密'
     },
     status: {
+      valid: '启用',
+      invalid: '禁用'
+    },
+    state: {
       valid: '启用',
       invalid: '禁用'
     },

@@ -17,7 +17,12 @@ export default {
     const vnodes = []
 
     if (icon) {
-      vnodes.push(<i class={icon}></i>)
+      // if (icon.includes('el-icon')) {
+      //   vnodes.push(<i class={[icon, 'sub-el-icon']} />)
+      // } else {
+      //   vnodes.push(<svg-icon icon-class={icon}/>)
+      // }
+      vnodes.push(<e-icon icon-name={icon} class="sub-el-icon"/>)
     }
 
     if (title) {
@@ -27,3 +32,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.sub-el-icon {
+  color: currentColor;
+  width: 1em;
+  height: 1em;
+}
+</style>

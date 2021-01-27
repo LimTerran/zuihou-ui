@@ -14,7 +14,7 @@ export default {
     deleteCache: 'DeleteCache'
   },
   login: {
-    title: 'zuihou-admin-cloud',
+    title: 'lamp-cloud',
     logIn: 'Login',
     tenant: 'tenant',
     username: 'Username',
@@ -32,11 +32,31 @@ export default {
     github: 'Github Repository'
   },
   table: {
+    blockList: {
+      id: 'ID',
+      ip: 'ip',
+      requestUri: 'requestUri',
+      requestMethod: 'requestMethod',
+      limitStart: 'limitFrom',
+      limitEnd: 'limitTo',
+      state: 'state',
+    },
+    rateLimiter: {
+      id: 'ID',
+      count: 'count',
+      requestUri: 'requestUri',
+      requestMethod: 'requestMethod',
+      limitStart: 'limitFrom',
+      limitEnd: 'limitTo',
+      state: 'state',
+      intervalSec: 'intervalSec',
+    },
     tenant: {
       code: 'EnterpriseCode',
       name: 'EnterpriseName',
       type: 'Type',
-      status: 'Status',
+      status: 'status',
+      readonly: 'readonly',
       duty: 'Duty',
       expirationTime: 'ExpirationTime',
       logo: 'Logo',
@@ -46,6 +66,27 @@ export default {
       passwordErrorNum: 'PasswordErrorNum',
       passwordErrorLockTime: 'PasswordErrorLockTime'
     },
+    online:{
+      userId: "userId",
+      loginIp: "loginIp",
+      location: "location",
+      clientId: "clientId",
+      token: "token",
+      name: "name:",
+      expireTime: "expireTime",
+      account: "account",
+      expireMillis: "expireMillis",
+      loginTime: "loginTime",
+    },
+    datasourceConfig: {
+      id: 'ID',
+      name: 'name',
+      poolName: 'poolName',
+      username: 'username',
+      password: 'password',
+      url: 'url',
+      driverClassName: 'driverClassName'
+    },
     user: {
       account: 'Account',
       name: 'Name',
@@ -54,7 +95,7 @@ export default {
       stationId: 'Station',
       email: 'Email',
       sex: 'Gender',
-      status: 'Status',
+      state: 'state',
       mobile: 'Mobile',
       avatar: 'Avatar',
       workDescribe: 'WorkDescribe',
@@ -76,7 +117,7 @@ export default {
       code: 'Code',
       name: 'Name',
       describe: 'Describe',
-      status: 'Status',
+      state: 'state',
       readonly: 'Readonly',
       createTime: 'CreateTime',
       dsType: 'DsType',
@@ -87,15 +128,16 @@ export default {
       label: 'Label',
       describe: 'Describe',
       code: 'Permissions',
-      isPublic: 'IsPublic',
+      isGeneral: 'isGeneral',
       path: 'Router Uri',
       type: 'Type',
       component: 'Component',
-      isEnable: 'IsEnable',
+      state: 'state',
       sortValue: 'Order',
       parentId: 'ParentId',
       icon: 'Icon',
-      group: 'Group'
+      group: 'Group',
+      readonly: 'readonly',
     },
     resource: {
       code: 'Code',
@@ -107,14 +149,15 @@ export default {
       abbreviation: 'Abbreviation',
       describe: 'Describe',
       parentId: 'ParentId',
+      type: 'Type',
       sortValue: 'SortValue',
-      status: 'Status'
+      state: 'Status'
     },
     station: {
       name: 'Name',
       describe: 'Describe',
       orgId: 'Org',
-      status: 'Status'
+      state: 'State'
     },
     optLog: {
       requestIp: 'IP',
@@ -196,10 +239,10 @@ export default {
       message: 'message',
       fee: 'fee'
     },
-    msgs: {
+    msg: {
       bizType: 'bizType',
       bizId: 'bizId',
-      msgsCenterType: 'msgsCenterType',
+      msgType: 'msgType',
       title: 'title',
       content: 'content',
       author: 'author',
@@ -210,21 +253,6 @@ export default {
       isRead: 'isRead',
       readTime: 'readTime'
     },
-    systemApi: {
-      code: "code",
-      name: "name",
-      describe: "describe",
-      requestMethod: "requestMethod",
-      contentType: "contentType",
-      serviceId: "serviceId",
-      path: "path",
-      status: "status",
-      isPersist: "isPersist",
-      isAuth: "isAuth",
-      isOpen: "isOpen",
-      className: "className",
-      methodName: "methodName"
-    },
     application: {
       clientId: "clientId",
       clientSecret: "clientSecret",
@@ -233,22 +261,20 @@ export default {
       icon: "icon",
       appType: "appType",
       describe: "describe",
-      status: "status"
+      state: "state"
     },
     dictionary: {
       type: "type",
-      name: "name",
-      describe: "describe",
-      status: "status"
-    },
-    dictionaryItem: {
-      dictionaryId: "dictionaryId",
-      dictionaryType: "dictionaryType",
+      label: "label",
       code: "code",
       name: "name",
       describe: "describe",
-      status: "status",
-      sortValue: "sortValue"
+      sortValue: "sortValue",
+      state: "state",
+      icon: "icon",
+      cssStyle: "cssStyle",
+      cssClass: "cssClass",
+      readonly: "readonly"
     },
     area: {
       code: "code",
@@ -267,7 +293,7 @@ export default {
       name: "name",
       value: 'value',
       describe: 'describe',
-      status: 'status',
+      state: 'state',
       readonly: 'readonly'
     },
     gen: {
@@ -291,13 +317,71 @@ export default {
         updateTime: 'UpdateTime'
       }
     },
-    eximport: {
-      field1: 'Field 1',
-      field2: 'Field 2',
-      field3: 'Field 3',
-      createTime: 'Import Time'
+    activitiModel: {
+      id: 'id',
+      name: 'name',
+      key: 'key',
+      version: 'version',
+      description: 'description',
+      status: 'status',
+      createTime: 'createTime',
+      lastUpdateTime: 'lastUpdateTime'
+    },
+    definitionModel: {
+      id: 'id',
+      tenantId: 'tenantId',
+      name: 'name',
+      deploymentName: 'deploymentName',
+      key: 'key',
+      version: 'version',
+      suspendStateName: 'suspendStateName',
+      deploymentTime: 'deploymentTime',
+    },
+    instantModel: {
+      id: 'id',
+      tenantCode: 'tenantCode',
+      name: 'name',
+      type: 'type',
+      isOver: 'isOver',
+      suspendStateName: 'suspendStateName',
+      startTime: 'startTime',
+      endTime: 'endTime',
+    },
+    instantReimbursementModel: {
+      id: 'id',
+      tenantCode: 'tenantCode',
+      name: 'name',
+      type: 'type',
+      amount: 'amount',
+      isOver: 'isOver',
+      suspendStateName: 'suspendStateName',
+      createTime: 'createTime',
+    },
+    ruTaskModel: {
+      id: 'id',
+      tenantCode: 'tenantCode',
+      name: 'name',
+      processDefinitionName: 'processDefinitionName',
+      processDefinitionKey: 'processDefinitionKey',
+      suspendStateName: 'suspendStateName',
+      reason: 'reason',
+      type: 'type',
+      typeReimbursement: 'typeReimbursement',
+      reasonReimbursement: 'reasonReimbursement',
+      startUser: 'startUser',
+      startTime: 'startTime',
+      createTime: 'createTime',
+    },
+    ruTaskItemModel: {
+      id: 'id:',
+      itemName: 'itemName',
+      itemRemake: 'itemRemake',
+      result: 'result',
+      createUser: 'createUser',
+      createTime: 'createTime',
     },
     status: 'Status',
+    state: 'State',
     refresh: 'Refresh',
     operation: 'Operation',
     search: 'Search',
@@ -314,7 +398,9 @@ export default {
     resetPassword: 'RestPassword',
     openInNewPage: 'New Page',
     createTime: 'createTime',
-    updateTime: 'updateTime'
+    updateTime: 'updateTime',
+    keyword: 'keyword',
+    readonly: 'readonly'
   },
   tagsView: {
     refresh: 'Refresh',
@@ -327,12 +413,14 @@ export default {
     theme: 'Theme Color',
     tagsView: 'Open Tags-View',
     fixedHeader: 'Fixed Header',
-    sidebarLogo: 'Sidebar Logo'
+    sidebarLogo: 'Sidebar Logo',
+    uniqueOpened: 'unique Opened'
   },
   system: {
-    title: 'zuihou-ui System'
+    title: 'lamp-cloud'
   },
   tips: {
+    readonly: 'Readonly Data, Inoperable',
     systemError: 'System maintenance, please try again~',
     usernameShouldNotBeEmpty: 'Username can not be empty',
     passwordShouldNotBeEmpty: 'Password can not be empty',
@@ -349,7 +437,7 @@ export default {
     confirmDelete: 'The selected data will be permanently deleted, continue?',
     confirmDeleteCache: 'Whether to clear the user permission cache immediately?',
     containCurrentUser: 'The operation has been canceled because it contains the currently logged in user',
-    neverLogin: 'Never logged in to the zuihou system',
+    neverLogin: 'Never logged in to the lamp-web system',
     nothing: 'Nothing',
     topId: 'A value of 0 indicates a top-level node',
     choose: 'Select: ',
@@ -357,7 +445,7 @@ export default {
     onlyChooseOne: 'Only one node can be selected as the parent node',
     noNodeSelected: 'Please select a node first',
     confirmDeleteNode: 'The selected node and its child nodes will be permanently deleted. Continue?',
-    iframeGrant: 'Userame: zuihou Password: zuihou',
+    iframeGrant: 'Userame: lamp Password: lamp',
     notEqual: 'Inconsistent values entered twice',
     oldPasswordIncorrect: 'Old password incorrect',
     uploadSuccess: 'Upload Successfully',
@@ -394,9 +482,9 @@ export default {
     invalidURL: 'URL is invalid'
   },
   common: {
-    system: 'Microservice SaaS System',
+    system: 'Microservice System',
     desc: {
-      a: 'Based on SpringBoot 2.2.5 & SpringCloud Hoxton.SR1',
+      a: 'Based on SpringBoot 2.3.6 & SpringCloud Hoxton.SR9',
       b: 'Use Jwt Unified Authentication',
       c: 'Enterprise design and configuration, deny demo project',
       d: 'Front-end separation architecture for increased efficiency',
@@ -423,6 +511,10 @@ export default {
       secret: 'Secret'
     },
     status: {
+      valid: 'Valid',
+      invalid: 'Invalid'
+    },
+    state: {
       valid: 'Valid',
       invalid: 'Invalid'
     },

@@ -1,69 +1,58 @@
-### zuihou-ui
+# lamp 快速开发平台
 
-zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)微服务权限系统的 `租户后台`，基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
+[![](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
+[![](https://img.shields.io/badge/版本-3.0.0-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
+[![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
+[![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/zuihou/lamp-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/lamp-cloud/network/members)
+[![fork](https://gitee.com/zuihou111/lamp-cloud/badge/fork.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/members)
 
-所谓`租户后台`，即是给租户（客户）使用，而`开发&运营后台`则是给使用此框架的公司内部人员维护项目使用。
+# lamp 项目名字由来
+## 叙事版：
+在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。
+走着走着，在一盏路灯下，孩砸盯着路灯打破宁静，喊出：灯灯～ 我和媳妇愣了一下，然后对视着一起说：哈哈，这个名字好～
 
-## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢!!
+## 解释版：
+`灯灯`： 是我小孩学说话时会说的第一个词，也是我在想了很多项目名后，小孩一语点破的一个名字，灯灯象征着光明，给困境的我们带来希望，给加班夜归的程序员们指引前方～
 
-## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+`灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，包含以下几个子项目
 
-http://doc.tangyh.top/zuihou-admin-cloud
+## lamp 项目组成
+| 项目 | gitee | github | 备注 |
+|---|---|---|---|
+| 工具集 | https://gitee.com/zuihou111/lamp-util | https://github.com/zuihou/lamp-util | 业务无关的工具集，cloud和boot 项目都依赖它 |
+| 微服务版 | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud | SpringCloud 版 |
+| 单体版 | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版(和lamp-cloud功能基本一致)|
+| 租户后台 | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web | PC端管理系统 |
+| 代码生成器 | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator | 给开发人员使用 |
+| 定时调度器 | https://gitee.com/zuihou111/lamp-job | https://github.com/zuihou/lamp-job | 尚未开发 |
 
-    ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 备注邮箱，可得开发文档一份（支持后续更新） （比看云的价格便宜哦）
+# lamp-web 简介
+`lamp-web` 的前身是`zuihou-ui` + `zuihou-admin-ui`，从3.0.0版本开始，将2个系统合并为`lamp-web`，它是`lamp`项目的其中一员。原来在zuihou-admin-ui系统的功能已经合并到内置租户【0000】，账号【lamp_pt】中。
 
-## 交流群： 63202894
+`lamp-web` 是 [lamp-cloud](https://github.com/zuihou/lamp-cloud) 和 [lamp-boot](https://github.com/zuihou/lamp-boot) 2个后台项目共用的管理后台，仅需在启动时调整`vue.config.js`文件中的代理。它基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
 
-![qq群.png](image/qq群.png) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
 
-    加群前请先将下方项目点star，支持下群主，谢谢😘
+## lamp 会员版项目演示地址 
+- 地址： http://tangyh.top:10000/lamp-web/
+- 以下内置账号仅限于内置的0000租户 
+- 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
+- 超级管理员： lamp/lamp    
+- 普通管理员： general/lamp
+- 普通账号： normal/lamp
 
-## 项目代码地址
+> ps: 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请使用lamp_pt账号查询租户管理员账号后,登录新租户测试
 
-微服务后端 代码：
-
-| 项目          | gitee                                          | github                                       |
-| ------------- | ---------------------------------------------- | -------------------------------------------- |
-| 微服务项目    | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud |
-| 单体项目      | https://gitee.com/zuihou111/zuihou-admin-boot  | https://github.com/zuihou/zuihou-admin-boot  |
-| 租户后台      | https://gitee.com/zuihou111/zuihou-ui          | https://github.com/zuihou/zuihou-ui          |
-| 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui    | https://github.com/zuihou/zuihou-admin-ui    |
-| 代码生成器    | 无                                             | https://github.com/zuihou/zuihou-generator   |
-
-## 演示地址
-
-| 项目          | 演示地址                               | 管理员账号       | 普通账号   |
-| ------------- | -------------------------------------- | ---------------- | ---------- |
-| 租户后台      | http://tangyh.top:10000/zuihou-ui/     | zuihou/zuihou    | test/zuiou |
-| 开发&运营后台 | http://tangyh.top:180/zuihou-admin-ui/ | demoAdmin/zuihou | 无         |
-
-> 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请到`开发&运营后台`自行创建租户后测试
-
-```
-租户后台 和 开发&运营后台 2者之间的关系是什么？
-A公司 使用这套SaaS脚手架二次开发了一个OA或者商城， B和C公司想使用A公司开发的这套系统，但土豪公司B有钱想要个性化功能，C公司是个穷逼，不愿意多花钱>
-于是，A公司就在 zuihou-admin-ui（开发&运营后台） 上新建了 租户B 和租户C， 并各自新建了账号b1和账号c1， 分别给B公司和C公司 试用，
-B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 试用很满意，但土豪B公司先要定制功能， 就跟A公司签了一个500W的定制大单，并要求独立部署在他们自己的服务器
-穷逼C公司没钱， 就花了20W使用A公司部署的云环境， 服务器和数据等都存在A公司的云服务器上。
-```
-
-## zuihou-admin-boot 演示地址
-
-| 项目          | 演示地址                                       | 管理员账号       | 普通账号   |
-| ------------- | ---------------------------------------------- | ---------------- | ---------- |
-| 租户后台      | http://42.202.130.216:10000/zuihou-ui          | zuihou/zuihou    | test/zuiou |
-| 开发&运营后台 | http://42.202.130.216:10000/zuihou-admin-ui    | demoAdmin/zuihou | 无         |
-| swagger 文档  | http://42.202.130.216:10000/api/gate/doc.html  | 无               | 无         |
-| 定时任务      | http://42.202.130.216:10000/zuihou-jobs-server | zuihou/zuihou    | 无         |
-
-## 项目截图：
-
-| 预览                                                   | 预览                                                   |
-| ------------------------------------------------------ | ------------------------------------------------------ |
-| ![SBA监控.png](image/项目相关/开发%26运营后台预览.png) | ![SBA监控.png](image/项目相关/租户后台预览.png)        |
-| ![SBA监控.png](image/监控界面/sba.png)                 | ![SBA监控.png](image/监控界面/zipkin.png)              |
-| ![swagger.png](image/项目相关/swagger获取token.jpg)    | ![admin-api.png](image/项目相关/admin-api.png)         |
-| ![SBA监控.png](image/1000star.png)                     | ![定时任务.png](image/项目相关/zuihou-jobs-server.png) |
+## lamp-cloud/lamp-boot + lamp-web 功能介绍：
+1. 租户管理：运营人员管理所有的租户创建
+2. 工作台：普通用户常用功能
+3. 组织管理：组织、岗位、用户数据维护、重置用户密码等
+4. 资源中心：消息、短信、附件管理
+5. 流程管理：流程部署、模型管理、流程示例
+6. 系统设置：菜单、资源配置、角色管理、给角色绑定用户、给角色授权菜单和资源、字典、地区、系统参数、操作日志、登录日志、应用管理等
+7. 网关设置：限流和阻止访问
+8. 开发者管理：定时任务、接口文档、注册&配置中心、服务监控、数据库监控、zipkin监控、SkyWalking监控
 
 ## 技术栈
 
@@ -77,190 +66,53 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 - Element-UI
 - ECharts
 
-## 功能点介绍:
+# 项目截图：
+
+| 预览 | 预览 |
+|---|---|
+| ![预览.png](image/架构图/lamp-cloud架构图.png) | ![预览.png](image/业务/swagger.png) |
+| ![预览.png](image/业务/nacos.jpg) | ![预览.png](image/业务/工作流.png) |
+| ![预览.png](image/业务/项目预览1.png) | ![预览.png](image/业务/项目预览2.png) |
+| ![预览.png](image/监控/sba1.png) | ![预览.png](image/监控/sba2.png) |
+| ![预览.png](image/监控/zipkin1_2_19_2.png) | ![预览.png](image/监控/zipkin3_2_19_2.png) |
+| ![预览.png](image/监控/sw拓扑图.png) | ![预览.png](image/监控/sw追踪列表.png)  |
+| ![预览.png](image/1000star.png) | ![预览.png](image/软著V2.5.0.jpg) |
+
+# 交流群，加群前请先给项目点个 "Star"，谢谢！😘
+
+- 63202894(主群 满员请加群2)
+- 1011148503(群2)    
+
+# 如果觉得本项目对您有任何一点帮助，请点右上角 "Star" 支持一下， 并向您的基友、同事们宣传一下吧，谢谢！
+
+# 详细文档:  https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+    ps: gitee捐献 或者 二维码打赏(本页最下方)： 45元及以上 并 备注邮箱，可得开发文档一份(支持后续更新) 
+        打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
+
+# 遇到问题请先查看历史issue，未找到解决方案，在提交issue(问题描述详细一些，报错截图大一些，复现步骤全一些)
+    https://github.com/zuihou/lamp-cloud/issues    
+
+# 会员版
+本项目分为开源版和会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
+
+会员版和开源版区别请看：[会员版](会员版.md)
+
+# 项目不错，支持一下吧
+![扫码支持.png](image/捐赠.png)
+
+# 感谢 JetBrains 提供的免费开源 License：
+[![JetBrains](image/jetbrains.png)](https://www.jetbrains.com/?from=lamp-cloud)
+    
+# 友情链接 & 特别鸣谢
+* 微服务快速开发平台：[https://github.com/zuihou/lamp-cloud](https://github.com/zuihou/lamp-cloud)
+* 单体快速开发平台：[https://github.com/zuihou/lamp-boot](https://github.com/zuihou/lamp-boot)
+* MyBatis-Plus：[https://mybatis.plus/](https://mybatis.plus/)
+* knife4j：[http://doc.xiaominfo.com/](http://doc.xiaominfo.com/)
+* hutool：[https://hutool.cn/](https://hutool.cn/)
+* xxl-job：[http://www.xuxueli.com/xxl-job/](http://www.xuxueli.com/xxl-job/)
+* kkfileview：[https://kkfileview.keking.cn](https://kkfileview.keking.cn)
+* FEBS Cloud Web： [https://gitee.com/mrbirdd/FEBS-Cloud-Web](https://gitee.com/mrbirdd/FEBS-Cloud-Web)
+    lamp-web 基于本项目改造， 感谢 [wuyouzhuguli](https://github.com/wuyouzhuguli)
+* Cloud-Platform： [https://gitee.com/geek_qi/cloud-platform](https://gitee.com/geek_qi/cloud-platform)
+    作者学习时接触到的第一个微服务项目
 
-- **服务注册&发现与调用：**
-
-基于 Nacos 来实现的服务注册与发现，使用使用 Feign 来实现服务互调, 可以做到使用 HTTP 请求远程调用时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个 HTTP 请求。
-
-- **服务鉴权:**
-
-通过 JWT 的方式来加强服务之间调度的权限验证，保证内部服务的安全性。
-
-- **负载均衡：**
-
-将服务保留的 rest 进行代理和网关控制，除了平常经常使用的 node.js、nginx 外，Spring Cloud 系列的 zuul 和 rebbion，可以帮我们进行正常的网关管控和负载均衡。其中扩展和借鉴国外项目的扩展基于 JWT 的 Zuul 限流插件，方面进行限流。
-
-- **熔断机制：**
-
-因为采取了服务的分布，为了避免服务之间的调用“雪崩”，采用了 Hystrix 的作为熔断器，避免了服务之间的“雪崩”。
-
-- **监控：**
-
-利用 Spring Boot Admin 来监控各个独立 Service 的运行状态；利用 turbine 来实时查看接口的运行状态和调用频率；通过 Zipkin 来查看各个服务之间的调用链等。
-
-- **数据权限**
-
-利用基于 Mybatis 的 DataScopeInterceptor 拦截器实现了简单的数据权限
-
-- **SaaS 的无感解决方案**
-
-使用 Mybatis 拦截器实现对所有 SQL 的拦截，修改默认的 Schema，从而实现多租户数据隔离的目的。
-
-- **二级缓存**
-
-采用 J2Cache 操作缓存，第一级缓存使用内存(Caffeine)，第二级缓存使用 Redis。 由于大量的缓存读取会导致 L2 的网络成为整个系统的瓶颈，因此 L1 的目标是降低对 L2 的读取次数。
-该缓存框架主要用于集群环境中。单机也可使用，用于避免应用重启导致的缓存冷启动后对后端业务的冲击。
-
-- **优雅的 Bean 转换**
-
-采用 Dozer 组件来对 DTO、DO、PO 等对象的优化转换
-
-- **前后端统一表单验证**
-
-严谨的表单验证通常需要 前端+后端同时验证， 但传统的项目，均只能前后端各做一次检验， 后期规则变更，又得前后端同时修改。
-故在`hibernate-validator`的基础上封装了`zuihou-validator-starter`起步依赖，提供一个通用接口，可以获取需要校验表单的规则，然后前端使用后端返回的规则，
-以后若规则改变，只需要后端修改即可。
-
-- **防跨站脚本攻击（XSS）**
-- **当前用户信息注入器**
-- **在线 API**
-
-由于原生 swagger-ui 某些功能支持不够友好，故采用了国内开源的`swagger-bootstrap-ui`，并制作了 stater，方便 springboot 用户使用。
-
-- **代码生成器**
-
-基于 Mybatis-plus-generator 自定义了一套代码生成器， 通过配置数据库字段的注释，自动生成枚举类、数据字典注解、SaveDTO、UpdateDTO、表单验证规则注解、Swagger 注解等。
-
-- **定时任务调度器**：
-
-基于 xxl-jobs 进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
-
-- **大文件/断点/分片续传**
-
-前端采用 webupload.js、后端采用 NIO 实现了大文件断点分片续传，启动 Eureka、Zuul、File 服务后，直接打开 docs/chunkUploadDemo/demo.html 即可进行测试。
-经测试，本地限制堆栈最大内存 128M 启动 File 服务,5 分钟内能成功上传 4.6G+的大文件，正式服耗时则会受到用户带宽和服务器带宽的影响，时间比较长。
-
-- **分布式事务**  
-  集成了阿里的分布式事务中间件：seata，以 **高效** 并且对业务 **0 侵入** 的方式，解决 微服务 场景下面临的分布式事务问题。
-
-## 版本参考，
-
-ps: 理论上： node 大于 8.10.x 就行，但最好当前比较新的稳定版 10.x.x 11.x.x 12.x.x
-
-```
-node -v
-v10.16.3
-
-npm -v
-6.9.0
-
-cnpm -v
-cnpm@6.1.0 (/usr/local/lib/node_modules/cnpm/lib/parse_argv.js)
-npm@6.11.3 (/usr/local/lib/node_modules/cnpm/node_modules/npm/lib/npm.js)
-node@10.16.3 (/usr/local/bin/node)
-npminstall@3.23.0 (/usr/local/lib/node_modules/cnpm/node_modules/npminstall/lib/index.js)
-prefix=/usr/local
-darwin x64 17.5.0
-registry=https://r.npm.taobao.org
-
-```
-
-## 适当修改配置
-
-由于本项目为了同时支持 zuihou-admin-cloud 和 zuihou-admin-boot 2 个项目，但前者由于多了一个网关服务，所以在请求 URI 上比后者多了一段 网关的 URI，
-（比如，同样是获取验证码的接口， 在者的地址：/api/authority/anno/captcha， 后者：/anno/captcha）
-所以想要前端项目尽可能少的改动代码，需要通过 nginx 或者 vue 的 uri 代理功能（但 uri 代理只能在开发环境使用）
-
-- 使用 nginx 请在群公告下载后直接使用
-- 使用 vue 自带的代理功能需要修改一下 前端项目的配置文件
-
-1. vue.config.js
-
-```
-    proxy: {
-      [proxyUrl]: {
-        target: targetUrl,
-        changeOrigin: true,
-        pathRewrite: {
-          // SpringCloud 项目使用这段配置
-          // ['^' + proxyUrl]: proxyUrl
-
-          // SpringBoot 项目 请使用以下的配置
-          ['^/api/authority']: '/',
-          ['^/api/file']: '/',
-          ['^/api/msgs']: '/',
-          ['^/api/gate']: '/',
-        }
-      }
-    }
-```
-
-2. .env.development
-
-```
-# SpringCloud项目使用这个地址
-# VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8760'
-
-# SpringBoot 项目使用这个地址
-VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8764'
-
-```
-
-## 安装
-
-```
-npm install --registry=https://registry.npm.taobao.org
-
-上面的命令报错？就逐个试试以下命令：
-
-npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
-
-git config --global url."https://".insteadOf git://
-
-npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
-
-cnpm install core-js@2.6.9 --prefix G:\github\zuihou-ui
-
-cnpm install core-js@2.6.9 
-
-还不行？ 就用淘宝镜像吧...
-
-# 安装cnpm
-npm install -g cnpm --registry=https://registry.npm.taobao.org
-
-
-cnpm install --registry=https://registry.npm.taobao.org
-```
-
-### 本地开发环境运行
-
-```
-npm run dev
-```
-
-### 访问：http://localhost:8080/
-
-### 生产环境运行
-
-```
-npm run build:prod
-```
-
-## 期待您的加入：
-
-    1，前端  （求一个会前端的大神带飞，重构整个前端项目）
-    2，土豪哥哥(求赞助服务器)
-
-## 如何贡献代码
-
-    1，Fork
-    2，修改代码后提交pr
-    3，等待合并
-    4，合并超过5次的朋友，直接拉为项目开发者
-
-## 求助：
-
-由于本人前端技能特别水，在做这 2 个前端项目时，都是边学边写，所以前端的 bug 较多，代码写的也不规范，导致 eslint 报了很多警告，
-若你会前端（vue）的或者知道怎么设置 vscode 的格式化规则或者知道怎么设置.eslint 配置的规则，欢迎提交 pr 或者进 qq 群指导一下群主。
-本人感激不尽，并赠送后端文档（https://kancloud.cn/zuihou/zuihou-admin-cloud）一份，且提供zuihou-admin-cloud项目的任何支持（启动运行，报错，二次开发，部署等）。

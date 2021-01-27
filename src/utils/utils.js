@@ -59,11 +59,11 @@ const renderSize = value => {
   if (null == value || value == '') {
     return "0 B"
   }
-  var unitArr = new Array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-  var index = 0
-  var srcsize = parseFloat(value)
+  const unitArr = new Array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+  let index = 0
+  const srcsize = parseFloat(value)
   index = Math.floor(Math.log(srcsize) / Math.log(1024))
-  var size = srcsize / Math.pow(1024, index)
+  let size = srcsize / Math.pow(1024, index)
   size = size.toFixed(2)
   if (unitArr[index]) {
     return size + unitArr[index]
@@ -83,9 +83,17 @@ const convertEnum = obj => {
   }
   return list
 }
+const convertDict = (list = []) => {
+  return list.map(item => {
+    return {
+      text: item.name,
+      value: item.code
+    }
+  })
+}
 
 const copy = msg => {
-  if(msg){
+  if (msg) {
     let oInput = document.createElement('input');     //创建一个隐藏input（重要！）
     oInput.value = msg;    //赋值
     document.body.appendChild(oInput);
@@ -97,5 +105,4 @@ const copy = msg => {
 }
 
 
-
-export { renderSize, convertEnum, copy }
+export {renderSize, convertEnum, copy, convertDict}

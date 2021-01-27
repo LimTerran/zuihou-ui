@@ -48,15 +48,18 @@ module.exports = {
         target: targetUrl,
         changeOrigin: true,
         pathRewrite: {
-          // SpringCloud 项目使用这段配置
-          ['^' + proxyUrl]: proxyUrl
+          // lamp-cloud  项目使用这段配置
+          ['^' + proxyUrl]: proxyUrl,
 
-          // SpringBoot 项目 请使用以下的配置
+          // lamp-boot 项目 请使用以下的配置
+          // ['^/api/tenant']: '/',
           // ['^/api/oauth']: '/',
           // ['^/api/authority']: '/',
+          // ['^/api/msg']: '/',
           // ['^/api/file']: '/',
-          // ['^/api/msgs']: '/',
+          // ['^/api/gateway']: '/gateway',
           // ['^/api/gate']: '/',
+          // ['^/api/activiti']: '/',
         }
       }
     }
@@ -88,9 +91,11 @@ module.exports = {
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: '[name]'
+        // symbolId: 'icon-[name]'
       })
-      .end()
+      .end().use('svgo-loader').loader('svgo-loader')
+      .tap(options => ({...options, plugins: [{removeAttrs: {attrs: 'fill'}}]})).end();
 
     // set preserveWhitespace
     config.module

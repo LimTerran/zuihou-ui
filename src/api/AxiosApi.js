@@ -11,7 +11,10 @@ axios.interceptors.request.use(config => {
       config.headers.token = 'Bearer ' + token;
     }
 
-    config.headers.tenant = db.get('TENANT', '')
+    const isTenant = config.headers['X-isTenant'] === false ? config.headers['X-isTenant'] : true;
+    if (isTenant && process.env.VUE_APP_IS_MULTI_TENANT_TYPE !== "NONE") {
+      config.headers.tenant = db.get('TENANT', '')
+    }
     const clientId = process.env.VUE_APP_CLIENT_ID;
     const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
     config.headers['Authorization'] = `Basic ${Base64.encode(`${clientId}:${clientSecret}`)}`;
@@ -33,17 +36,42 @@ axios.interceptors.response.use(
 )
 
 function handleError(error, reject, opts) {
-  debugger
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
+  isAlert = isAlert === undefined ? true : isAlert;
   if (isAlert) {
     if (error.code === 'ECONNABORTED') {
       Message({
         message: '请求超时'
       })
     } else if (error.response && error.response.data) {
-      Message({
-        message: error.response.data
-      })
+      if (error.response.status === 500) {
+        Message({
+          message: error.response.data
+        })
+      } else {
+        const resData = error.response.data;
+        if (resData.code === 40000 || resData.code === 40001
+          || resData.code === 40002 || resData.code === 40003
+          || resData.code === 40005 || resData.code === 40006
+          || resData.code === 40008 || resData.code === 40009
+        ) {
+          MessageBox.alert(resData.msg || resData.message, '提醒', {
+            confirmButtonText: '确定',
+            callback: () => {
+              db.clear();
+              window.location.hash = '/login'
+            }
+          })
+        } else if (resData.msg) {
+          Message({
+            message: resData.msg
+          })
+        } else if (resData.message) {
+          Message({
+            message: resData.message
+          })
+        }
+      }
     } else if (error.message) {
       Message({
         message: error.message
@@ -55,15 +83,17 @@ function handleError(error, reject, opts) {
 
 function handleSuccess(res, resolve, opts) {
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
-  if (res.data.isError) {
+  isAlert = isAlert === undefined ? true : isAlert;
+  const resData = res.data;
+  if (resData.isSuccess === false) {
     // 未登录
-    if (res.data.code === 40000 || res.data.code === 40001
-      || res.data.code === 40002 || res.data.code === 40003
-      || res.data.code === 40005 || res.data.code === 40006
-      || res.data.code === 40008
+    if (resData.code === 40000 || resData.code === 40001
+      || resData.code === 40002 || resData.code === 40003
+      || resData.code === 40005 || resData.code === 40006
+      || resData.code === 40008
     ) {
       debugger
-      MessageBox.alert(res.data.msg, '提醒', {
+      MessageBox.alert(resData.msg, '提醒', {
         confirmButtonText: '确定',
         callback: () => {
           window.location.hash = '/login'
@@ -71,7 +101,7 @@ function handleSuccess(res, resolve, opts) {
       })
     } else {
       if (isAlert) {
-        Message.error(res.data.msg);
+        Message.error(resData.msg);
       }
     }
   }
@@ -95,7 +125,7 @@ const httpServer = (opts) => {
     baseURL: process.env.VUE_APP_PROD_REQUEST_DOMAIN_PREFIX + process.env.VUE_APP_BASE_API,
     url: opts.url,
     responseType: opts.responseType || '',
-    timeout: 20000
+    timeout: opts.custom && opts.custom['timeout'] || 30000
   }
   if (opts['meta']) {
     httpDefaultOpts.headers = opts['meta']

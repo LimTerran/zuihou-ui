@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'zuihou-ui',
+  title: 'lamp-web',
   onlinePreview: 'http://tangyh.top:8012/onlinePreview?url=',
   druid: {
     authority: {
@@ -10,7 +10,7 @@ module.exports = {
       "development": 'http://127.0.0.1:8765/druid',
       "production": 'http://tangyh.top:8765/druid',
     },
-    msgs: {
+    msg: {
       "development": 'http://127.0.0.1:8768/druid',
       "production": 'http://tangyh.top:8768/druid',
     }

@@ -7,44 +7,48 @@
       @toggleClick="toggleSideBar"
     />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container"/>
 
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
-        <div class="right-menu-item" style="color:red">
-          演示环境维护不易，请勿乱删乱改数据！
+        <div class="right-menu-item" style="color:red;width:500px;">
+          {{tips}}
         </div>
-        <search id="header-search" class="right-menu-item" placeholder="搜索菜单" />
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-        <lang-select class="right-menu-item hover-effect" />
+        <search id="header-search" class="right-menu-item" placeholder="搜索菜单"/>
+        <screenfull id="screenfull" class="right-menu-item hover-effect"/>
+        <lang-select class="right-menu-item hover-effect"/>
         <el-popover
           placement="bottom"
           width="400"
           class="right-menu-item hover-effect"
           trigger="click">
           <div class="avue-notice">
-            <div class="msgs-title-content">
-              <div  class="msgs-title">消息</div>
-              <div  class="msgs-title-icon">
-                <el-switch v-model="msgsRefresh" @change="msgsRefreshChange" title="是否自动刷新消息" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+            <div class="msg-title-content">
+              <div class="msg-title">消息</div>
+              <div class="msg-title-icon">
+                <el-switch v-model="msgRefresh" @change="msgRefreshChange" title="是否自动刷新消息" active-color="#13ce66"
+                           inactive-color="#ff4949"></el-switch>
               </div>
             </div>
             <div v-for="item in tableData.records" :key="item.id" class="avue-notice__item">
               <div class="avue-notice__content">
                 <a href="javascript:;" @click="view(item)">
-                <div class="avue-notice__title">
-                  <div class="avue-notice__name">{{ item.title }}</div>
-                  <span class="avue-notice__tag"><el-tag size="small" effect="plain" :type="item.msgsCenterType ? item.msgsCenterType['code'] : '' | msgsTypeFilter">{{ item.msgsCenterType ? item.msgsCenterType['desc'] : '' }}</el-tag></span>
-                </div>
-                <div class="avue-notice__subtitle">{{ item.createTime }}</div>
+                  <div class="avue-notice__title">
+                    <div class="avue-notice__name">{{ item.title }}</div>
+                    <span class="avue-notice__tag"><el-tag size="small" effect="plain"
+                                                           :type="item.msgType ? item.msgType['code'] : '' | msgTypeFilter">{{ item.msgType ? item.msgType['desc'] : ''
+                      }}</el-tag></span>
+                  </div>
+                  <div class="avue-notice__subtitle">{{ item.createTime }}</div>
                 </a>
               </div>
             </div>
             <div class="avue-notice__more">
-              <router-link :to="{path:'/msgs/myMsgs'}">点击查看更多<i class="el-icon-more"/></router-link>
+              <router-link :to="{path:'/resources/msg'}">点击查看更多<i class="el-icon-more"/></router-link>
             </div>
           </div>
-          <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item" slot="reference">
+          <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item"
+                    slot="reference">
             <i class="el-icon-bell"/>
           </el-badge>
         </el-popover>
@@ -67,18 +71,18 @@
           </router-link>
           <el-dropdown-item>
             <span style="display:block;" @click="setting">{{
-              $t("navbar.setting")
-            }}</span>
+                $t("navbar.setting")
+              }}</span>
           </el-dropdown-item>
           <a
             target="_blank"
-            href="https://github.com/zuihou/zuihou-admin-cloud"
+            href="https://github.com/zuihou/lamp-cloud"
           >
             <el-dropdown-item>{{ $t("navbar.github") }}</el-dropdown-item>
           </a>
           <a
             target="_blank"
-            href="https://www.kancloud.cn/zuihou/zuihou-admin-cloud/"
+            href="https://www.kancloud.cn/zuihou/lamp-cloud/"
           >
             <el-dropdown-item>{{ $t("navbar.docs") }}</el-dropdown-item>
           </a>
@@ -105,9 +109,8 @@ import LangSelect from "@/components/LangSelect";
 import db from "@/utils/localstorage";
 import Screenfull from "@/components/Screenfull";
 import Search from "@/components/HeaderSearch";
-import userApi from "@/api/User.js";
 import loginApi from "@/api/Login.js";
-import msgsApi from "@/api/Msgs.js";
+import msgApi from "@/api/Msg.js";
 
 export default {
   components: {
@@ -121,7 +124,7 @@ export default {
     userAvatarFilter(name) {
       return name.charAt(0);
     },
-    msgsTypeFilter(status) {
+    msgTypeFilter(status) {
       const map = {
         WAIT: "",
         NOTIFY: "success",
@@ -132,19 +135,21 @@ export default {
     },
   },
   mounted() {
-    this.loadMyMsgs();
-    if(this.msgsRefresh) {
-      this.msgsRefreshChange(true);
+    this.tipsScrolling();
+    this.loadMyMsg();
+    if (this.msgRefresh) {
+      this.msgRefreshChange(true);
     }
   },
   data() {
     return {
+      tips: ' 演示环境禁止修改、删除重要数据！请登录租户【0000】，账号【lamp_pt】查询其他租户的管理员账号后，登录其他租户测试全部功能!!! ',
       tableData: {
         total: 0,
         records: []
       },
-      msgsRefresh: db.get('MSGS_REFRESH', false), // 消息是否自动刷新
-      msgsRefreshTimer: null
+      msgRefresh: db.get('MSG_REFRESH', false), // 消息是否自动刷新
+      msgRefreshTimer: null
     }
   },
   computed: {
@@ -177,22 +182,32 @@ export default {
     }
   },
   methods: {
-    loadMyMsgs() {
+    tipsScrolling (){
+      setInterval(() => { //ES6箭头函数
+        // 截取首字符串(第一个)
+        let head = this.tips.substring(0,1);
+        // 截取除首字符串外所有字符串(除第一个所有)
+        let foot = this.tips.substring(1);
+        // 头尾拼接后赋给data => tit属性
+        this.tips = foot + head;
+      },1000)
+    },
+    loadMyMsg() {
       const params = {
-        model:{}
+        model: {}
       };
       params.size = 10;
       params.current = 1;
       params.model.isRead = false;
-      msgsApi.page(params, {isAlert: false}).then(response => {
+      msgApi.page(params, {isAlert: false}).then(response => {
         const res = response.data;
-        if(res.isSuccess){
+        if (res.isSuccess) {
           this.tableData = res.data;
         }
       });
     },
     mark(ids, callback) {
-      msgsApi.mark({msgCenterIds: ids}).then(response => {
+      msgApi.mark({msgCenterIds: ids}).then(response => {
         const res = response.data;
         if (typeof callback === "function") {
           callback(ids);
@@ -201,9 +216,9 @@ export default {
     },
     view(row) {
       this.mark([row.id], ids => {
-        this.loadMyMsgs();
+        this.loadMyMsg();
         this.$router.push({
-          path: "/msgs/sendMsgs",
+          path: "/resources/msg/edit",
           query: {
             id: row.id,
             type: "view"
@@ -211,16 +226,16 @@ export default {
         });
       });
     },
-    msgsRefreshChange(val) {
-      db.save('MSGS_REFRESH', val);
-      if(val) {
-        this.msgsRefreshTimer = setInterval(() => {
-          this.loadMyMsgs();
+    msgRefreshChange(val) {
+      db.save('MSG_REFRESH', val);
+      if (val) {
+        this.msgRefreshTimer = setInterval(() => {
+          this.loadMyMsg();
         }, 15000)
       } else {
-        clearInterval(this.msgsRefreshTimer);
+        clearInterval(this.msgRefreshTimer);
         console.log("定时拉取消息停止了！")
-        this.msgsRefreshTimer = null;
+        this.msgRefreshTimer = null;
       }
     },
     toggleSideBar() {
@@ -230,7 +245,12 @@ export default {
       this.$store.commit("setting/openSettingBar", true);
     },
     logout() {
-      this.clean();
+      let param = {
+        token: db.get('TOKEN', ''),
+        userId: db.get('USER', {id: null}).id,
+        clientId: process.env.VUE_APP_CLIENT_ID,
+      }
+      loginApi.logout(param).finally(() => this.clean());
     },
     clean() {
       db.clear();
@@ -246,13 +266,8 @@ export default {
           type: "warning"
         }
       ).then(() => {
-          db.remove("EXPIRE_TIME");
-          db.remove("TOKEN");
-          db.remove("USER_ROUTER");
-          db.remove("PERMISSIONS");
-
-          this.reloadData();
-        })
+        this.reloadData();
+      })
         .catch(() => {
           // do nothing
         });
@@ -264,7 +279,7 @@ export default {
       }
       loginApi.login(param).then((response) => {
         const res = response.data;
-        if(res.isSuccess){
+        if (res.isSuccess) {
           const data = res.data
           this.$store.commit("account/setToken", data['token']);
           this.$store.commit("account/setRefreshToken", data['refreshToken']);
@@ -282,6 +297,11 @@ export default {
           this.logout();
         }
       }).catch(() => {
+        db.remove("EXPIRE_TIME");
+        db.remove("TOKEN");
+        db.remove("USER_ROUTER");
+        db.remove("PERMISSIONS");
+
         this.logout();
       });
     },
@@ -289,8 +309,10 @@ export default {
       loginApi.getResource().then(response => {
         const res = response.data;
         if (res.isSuccess) {
-          const permissionsList = res.data;
-          this.$store.commit("account/setPermissions", permissionsList ? permissionsList : []);
+          const authorityResource = res.data;
+          const permissionsList = authorityResource.resourceList || [];
+          this.$store.commit("account/setPermissions", permissionsList);
+          this.$store.commit("account/setAuthorityResource", authorityResource);
 
           setTimeout(() => {
             location.reload();
@@ -313,6 +335,7 @@ export default {
   position: relative;
   background: #fff;
   border-bottom: 1px solid #f1f1f1;
+
   .hamburger-container {
     line-height: 46px;
     height: 100%;
@@ -368,6 +391,7 @@ export default {
       .avatar-wrapper {
         margin-top: 5px;
         position: relative;
+
         .user-name {
           vertical-align: top;
           font-size: 1rem;
@@ -375,6 +399,7 @@ export default {
           margin-top: -4px;
           display: inline-block;
         }
+
         .user-avatar {
           cursor: pointer;
           width: 2rem;
@@ -394,26 +419,31 @@ export default {
     }
   }
 }
+
 .el-badge {
-  /deep/.el-badge__content.is-fixed {
+  /deep/ .el-badge__content.is-fixed {
     top: 10px
   }
 }
-.msgs-title-content {
+
+.msg-title-content {
   color: #303133;
   font-size: 20px;
   line-height: 1;
   margin: 12px 0px 5px 0px;
-  overflow:hidden;
-  .msgs-title {
+  overflow: hidden;
+
+  .msg-title {
     margin-left: 20px;
     float: left;
   }
-  .msgs-title-icon {
+
+  .msg-title-icon {
     float: right;
     margin-right: 28px;
   }
 }
+
 .avue-notice__item {
   padding: 12px 24px;
   border-bottom: 1px solid #e8eaec;
@@ -428,23 +458,27 @@ export default {
   -ms-flex-align: start;
   align-items: flex-start;
 }
+
 .avue-notice__content {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
+
 .avue-notice__title {
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
   color: #515a6e;
   margin-bottom: 4px;
-  overflow:hidden
+  overflow: hidden
 }
+
 .avue-notice__tag {
   float: right;
   margin-top: 2px;
 }
+
 .avue-notice__name {
   line-height: 25px;
   overflow: hidden;
@@ -453,11 +487,13 @@ export default {
   width: 280px;
   float: left;
 }
+
 .avue-notice__subtitle {
   font-size: 12px;
   color: #808695;
 }
-.avue-notice__more{
+
+.avue-notice__more {
   text-align: center;
   padding: 20px 0 10px
 }
